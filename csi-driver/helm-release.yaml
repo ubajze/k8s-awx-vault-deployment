@@ -1,0 +1,21 @@
+---
+apiVersion: "helm.toolkit.fluxcd.io/v2beta1"
+kind: "HelmRelease"
+metadata:
+  name: "csi-driver"
+  namespace: "kube-system"
+spec:
+  interval: "5m"
+  releaseName: "csi-driver"
+  chart:
+    spec:
+      chart: "secrets-store-csi-driver"
+      sourceRef:
+        kind: "HelmRepository"
+        name: "csi-driver"
+        namespace: "kube-system"
+      interval: "1m"
+  valuesFrom:
+    - kind: "ConfigMap"
+      name: "csi-driver-config-input"
+      valuesKey: "values.yaml"

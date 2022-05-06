@@ -1,0 +1,34 @@
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx-demo
+spec:
+  service_type: nodeport
+  extra_settings:
+    - setting: CUSTOM_SETTING
+      value: "500"
+  extra_volumes: |
+    - name: dbsettings
+      configMap:
+        defaultMode: 420
+        items:
+          - key: xdbsettings.py
+            path: xdbsettings.py
+        name: dbsettings
+  task_extra_volume_mounts: |
+    - name: dbsettings
+      mountPath: /etc/tower/conf.d/xdbsettings.py
+      subPath: xdbsettings.py
+    - name: awx-demo-application-credentials
+      mountPath: /vault/secrets/execution_environments.py
+      subPath: execution_environments.py
+  annotations: |
+    vault.hashicorp.com/agent-inject: "true"
+    vault.hashicorp.com/agent-configmap: "awx-vault-config"
+  task_extra_env: |
+    - name: AWX_SETTINGS_DIR
+      value: /vault/secrets/
+  web_extra_env: |
+    - name: AWX_SETTINGS_DIR
+      value: /vault/secrets/

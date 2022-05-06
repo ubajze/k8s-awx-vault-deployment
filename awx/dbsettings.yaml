@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dbsettings
+data:
+  xdbsettings.py: |
+    DATABASES = {
+        'default': {
+            'ATOMIC_REQUESTS': True,
+            'ENGINE': 'awx.main.db.profiled_pg',
+            'NAME': "awx",
+            'USER': "awx",
+            'PASSWORD': "dummypassword",
+            'HOST': 'awx-demo-postgres',
+            'PORT': "5432",
+            'OPTIONS': { 'sslmode': 'prefer',
+                        'sslrootcert': '/etc/pki/tls/certs/ca-bundle.crt',
+            },
+        }
+    }

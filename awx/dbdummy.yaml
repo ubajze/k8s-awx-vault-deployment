@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: awx-demo-postgres-configuration
+stringData:
+  host: dummyhost
+  port: "5432"
+  database: awx
+  username: dummy
+  password: dummy
+  sslmode: prefer
+  type: unmanaged
+type: Opaque
